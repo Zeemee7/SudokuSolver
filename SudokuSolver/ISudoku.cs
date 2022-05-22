@@ -10,6 +10,10 @@
 
         byte GetValue(byte row, byte col);
 
+        bool OriginatesFrom(ISudoku otherSudoku);
+
         bool Matches(ISudoku otherSudoku);
+
+        ISudoku Clone();
     }
 }

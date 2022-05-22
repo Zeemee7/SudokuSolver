@@ -51,8 +51,8 @@
             DisplaySudoku(solution);
             bool complete = solution.IsComplete();
             bool valid = solution.IsValid();
-            bool matches = solution.Matches(problem);
-            if (complete && valid && matches)
+            bool originatesFrom = solution.OriginatesFrom(problem);
+            if (complete && valid && originatesFrom)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("\nERFOLG!");
@@ -65,7 +65,7 @@
             Console.ForegroundColor = NEUTRAL;
             WriteResultLine("Komplett", complete);
             WriteResultLine("Korrekt", valid);
-            WriteResultLine("Ehrlich", matches);
+            WriteResultLine("Ehrlich", originatesFrom);
             Console.WriteLine("Benötigte Zeit:\t" + duration);
         }
 

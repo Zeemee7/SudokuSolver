@@ -55,7 +55,7 @@
             return true;
         }
 
-        public bool Matches(ISudoku otherSudoku)
+        public bool OriginatesFrom(ISudoku otherSudoku)
         {
             for (byte r = 1; r < 10; r++)
             {
@@ -68,7 +68,20 @@
             return true;
         }
 
-        public ArraySudoku Copy()
+        public bool Matches(ISudoku otherSudoku)
+        {
+            for (byte r = 1; r < 10; r++)
+            {
+                for (byte c = 1; c < 10; c++)
+                {
+                    byte original = otherSudoku.GetValue(r, c);
+                    if (GetValue(r, c) != original) return false;
+                }
+            }
+            return true;
+        }
+
+        public ISudoku Clone()
         {
             return new ArraySudoku((byte[,])fields.Clone());
         }
@@ -96,7 +109,7 @@
             foreach (byte n in numbers)
             {
                 if (n < 0 || n > 9) throw new ArgumentOutOfRangeException("Elemente von numbers müssen zwischen 0 und 9 sein.");
-                if (n == null) continue; // 0s werden ignoriert
+                if (n == 0) continue; // 0s werden ignoriert
                 // Schon gefunden?
                 if (check[n - 1]) return false;
                 // Setze auf true, damit wird der Fund markiert
