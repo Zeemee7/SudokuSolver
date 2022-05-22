@@ -2,11 +2,9 @@
 {
     public interface ISudoku
     {
-        bool Solved
-        {
-            get;
-        }
-
-        byte ValueAt(byte row, byte col);
+        bool IsComplete();
+        bool IsValid();
+        void SetValue(byte row, byte col, byte value);
+        byte GetValue(byte row, byte col);
     }
 }

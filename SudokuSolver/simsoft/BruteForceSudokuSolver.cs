@@ -10,7 +10,7 @@ namespace SudokuSolver.simsoft
     {
         public ISudoku Solve(ISudoku problem)
         {
-            throw new NotImplementedException();
+            return new ArraySudoku();
         }
     }
 }

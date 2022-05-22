@@ -1,37 +1,24 @@
-﻿namespace SudokuSolver.simsoft
+﻿namespace SudokuSolver
 {
-    public class SudokuState : ISudoku
+    public class ArraySudoku : ISudoku
     {
         readonly byte[,] fields = new byte[9, 9];
 
-        public SudokuState() {}
+        public ArraySudoku() { }
 
-        private SudokuState(byte[,] fields)
+        private ArraySudoku(byte[,] fields)
         {
             this.fields = fields;
         }
 
-        public bool Solved => IsComplete() && IsValid();
-
-        public byte ValueAt(byte row, byte col)
+        public byte GetValue(byte row, byte col)
         {
             if (row < 1 || row > 9) throw new ArgumentOutOfRangeException();
             if (col < 1 || col > 9) throw new ArgumentOutOfRangeException();
             return fields[row - 1, col - 1];
         }
 
-        public bool TryValue(byte row, byte col, byte value)
-        {
-            SetValue(row, col, value);
-            return IsValid();
-        }
-
-        public SudokuState Copy()
-        {
-            return new SudokuState((byte[,]) fields.Clone());
-        }
-
-        internal void SetValue(byte row, byte col, byte value)
+        public void SetValue(byte row, byte col, byte value)
         {
             if (row < 1 || row > 9) throw new ArgumentOutOfRangeException();
             if (col < 1 || col > 9) throw new ArgumentOutOfRangeException();
@@ -39,7 +26,7 @@
             fields[row - 1, col - 1] = value;
         }
 
-        internal bool IsComplete()
+        public bool IsComplete()
         {
             for (byte ri = 0; ri < 9; ri++)
             {
@@ -51,14 +38,14 @@
             return true;
         }
 
-        internal bool IsValid()
+        public bool IsValid()
         {
-            for(byte i = 0; i < 9; i++)
+            for (byte i = 0; i < 9; i++)
             {
                 if (!IsRowValid(i)) return false;
                 if (!IsColumnValid(i)) return false;
             }
-            for (byte ri = 0; ri < 9; ri+=3)
+            for (byte ri = 0; ri < 9; ri += 3)
             {
                 for (byte ci = 0; ci < 9; ci += 3)
                 {
@@ -66,6 +53,11 @@
                 }
             }
             return true;
+        }
+
+        public ArraySudoku Copy()
+        {
+            return new ArraySudoku((byte[,])fields.Clone());
         }
 
         private bool IsRowValid(byte i)
@@ -88,14 +80,14 @@
             if (numbers.Length > 9) throw new ArgumentOutOfRangeException("numbers darf nicht mehr als 9 Elemente enthalten!");
             // Wird mit false initialisiert
             bool[] check = new bool[9];
-            foreach(byte n in numbers)
+            foreach (byte n in numbers)
             {
                 if (n < 0 || n > 9) throw new ArgumentOutOfRangeException("Elemente von numbers müssen zwischen 0 und 9 sein.");
                 if (n == null) continue; // 0s werden ignoriert
                 // Schon gefunden?
-                if (check[n-1]) return false;
+                if (check[n - 1]) return false;
                 // Setze auf true, damit wird der Fund markiert
-                check[n-1] = true;
+                check[n - 1] = true;
             }
             return true;
         }
