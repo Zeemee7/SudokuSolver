@@ -55,6 +55,19 @@
             return true;
         }
 
+        public bool Matches(ISudoku otherSudoku)
+        {
+            for (byte r = 1; r < 10; r++)
+            {
+                for (byte c = 1; c < 10; c++)
+                {
+                    byte original = otherSudoku.GetValue(r, c);
+                    if (original != 0 && GetValue(r, c) != original) return false;
+                }
+            }
+            return true;
+        }
+
         public ArraySudoku Copy()
         {
             return new ArraySudoku((byte[,])fields.Clone());

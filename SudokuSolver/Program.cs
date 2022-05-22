@@ -17,13 +17,7 @@ namespace SudokuSolver
             DateTime startTime = DateTime.Now;
             ISudoku solution = solver.Solve(problem);
             TimeSpan duration = DateTime.Now - startTime;
-            if (solution.IsComplete() && solution.IsValid())
-            {
-                userInterface.DisplaySuccess(solution, duration);
-            } else
-            {
-                userInterface.DisplayFailure(solution, duration);
-            }
+            userInterface.DisplayResult(problem, solution, duration);
         }
 
         private static List<ISudokuSolver> LoadSolvers()

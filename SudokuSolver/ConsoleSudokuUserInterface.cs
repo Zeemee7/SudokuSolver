@@ -45,24 +45,37 @@
             }
         }
 
-        public void DisplaySuccess(ISudoku solution, TimeSpan duration)
+        public void DisplayResult(ISudoku problem, ISudoku solution, TimeSpan duration)
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\nERFOLG! Lösung:\n");
-            Console.ForegroundColor = NEUTRAL;
+            Console.WriteLine("\n\nLösungsfindung beendet. Aktueller Stand:");
             DisplaySudoku(solution);
-
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\nBenötigte Zeit: " + duration);
+            bool complete = solution.IsComplete();
+            bool valid = solution.IsValid();
+            bool matches = solution.Matches(problem);
+            if (complete && valid && matches)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("\nERFOLG!");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\nMISSERFOLG!");
+            }
             Console.ForegroundColor = NEUTRAL;
+            WriteResultLine("Komplett", complete);
+            WriteResultLine("Korrekt", valid);
+            WriteResultLine("Ehrlich", matches);
+            Console.WriteLine("Benötigte Zeit:\t" + duration);
         }
 
-        public void DisplayFailure(ISudoku solution, TimeSpan duration)
+        private static void WriteResultLine(string name, bool result)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("\nSchade, der gewählte ISudokuSolver hat nach " + duration + " versagt. Aktueller Stand:");
+            Console.Write(name + "?\t");
+            string jn = result ? "Ja" : "Nein";
+            Console.ForegroundColor = result ? ConsoleColor.Green : ConsoleColor.Red;
+            Console.WriteLine(jn);
             Console.ForegroundColor = NEUTRAL;
-            DisplaySudoku(solution);
         }
 
         public void DisplayStart(ISudokuSolver solver)
