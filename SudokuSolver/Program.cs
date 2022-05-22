@@ -7,7 +7,7 @@ namespace SudokuSolver
     {
         static void Main(string[] args)
         {
-            ISudoku problem = new CsvSudokuReader(new FileInfo("sudokus/mittel.txt")).Read();
+            ISudoku problem = new CsvSudokuReader(new FileInfo("sudokus/sehrschwer.txt")).Read();
             ISudokuUserInterface userInterface = new ConsoleSudokuUserInterface();
             userInterface.DisplaySudoku(problem);
             List<ISudokuSolver> sudokuSolvers = LoadSolvers();
